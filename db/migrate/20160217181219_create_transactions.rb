@@ -4,6 +4,7 @@ class CreateTransactions < ActiveRecord::Migration
       t.references :buyer, index: true
       t.references :seller, index: true
       t.references :product, index: true
+      t.string :amount
 
       t.timestamps
     end

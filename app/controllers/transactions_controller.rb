@@ -3,7 +3,8 @@ class TransactionsController < ApplicationController
   	@buyer = User.find(params[:buyer_id])
   	@seller = User.find(params[:seller_id])
   	@product = Product.find(params[:product_id])
-  	@transaction = Transaction.new(buyer:@buyer,seller:@seller,product:@product)
+  	amount = params[:amount]
+  	@transaction = Transaction.new(buyer:@buyer,seller:@seller,product:@product,amount:amount)
     if !@transaction.valid?
       flash[:errors] = @transaction.errors.full_messages
       redirect_to :back
