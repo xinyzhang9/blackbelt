@@ -1,0 +1,46 @@
+<div class = "container">
+	<fieldset>
+	<legend>Register</legend>
+	<form action="/users" method = "post">
+		<input type="hidden" name = "authenticity_token" value = "<%=form_authenticity_token%>">
+		<label for="first_name">First Name</label>
+		<input type="text" name = "user[first_name]" id = "first_name">
+		<br>
+		<label for="last_name">Last Name</label>
+		<input type="text" name = "user[last_name]" id = "last_name">
+		<br>
+		<label for="email">Email</label>
+		<input type="text" name = "user[email]" id = "email">
+		<br>
+	
+		<label for="password">Password</label>
+		<input type="password" name = "user[password]" id = "password">
+		<br>
+		*Password should be at least 6 characters
+		<br>
+		<br>
+		<input type="submit" value = "Register" class = "btn btn-primary">
+	</form>
+</fieldset>
+</div>
+
+
+<div class = "container">
+	<fieldset>
+	<legend>Login</legend>
+	<form action="/sessions" method = "post">
+		<input type="hidden" name = "authenticity_token" value = "<%=form_authenticity_token%>">
+		<label for="email">Email</label>
+		<input type="text" name = "email" id = "email">
+		<br>
+		<label for="password">Password</label>
+		<input type="password" name = "password" id = "password">
+		<br>
+		<input type="submit" class = "btn btn-success" value = "Login">
+
+	</form>
+</fieldset>
+</div>
+
+
+

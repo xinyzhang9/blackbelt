@@ -1,0 +1,89 @@
+<div class = 'headbar'>
+	<h2>Hi, <%=current_user.first_name%>   <a href="/products" class = "btn btn-primary">Go to All Products</a></h2>
+</div>
+<div class = 'container'>
+	<h4>Sell Product</h4>
+	<form action="/products" method = "post">
+		<input type="hidden" name = "authenticity_token" value = "<%=form_authenticity_token%>">
+		<label for="name">Name</label>
+		<input type="text" name = "name" id = "name">
+		<br>
+		<label for="amount">Amount</label>
+		<input type="text" name = "amount" id = "amount">
+		<br>
+		<input type="submit" value = "Sell" class = "btn btn-warning">
+	</form>
+</div>
+<div class = "container">
+	<h4>Your Products that are not yet sold:</h4>
+	<table class = "table">
+		<tr>
+			<th>Product</th>
+			<th>Date Posted</th>
+			<th>Amount</th>
+			<th>Action</th>
+		</tr>
+		<% @my_products.each do |p| %>
+			<%if !((@transactions.any?) && (@transactions.find_by product_id:p.id))%>
+				<tr>
+					<td><%=p.name%></td>
+					<td><%=p.created_at.strftime("%b %e,%Y")%></td>
+					<td>$<%=p.amount.round(2)%></td>
+					<td>
+						<form action="/products/<%=p.id%>" method = "post">
+							<input type="hidden" name = "authenticity_token" value = "<%=form_authenticity_token%>">
+							<input type="hidden" name = "_method" value = "delete">
+							<input type="submit" value = "Remove" class = "btn btn-danger">
+						</form>
+					</td>
+				</tr>
+			<%end%>
+		<%end%>
+	</table>
+	
+</div>
+<div class = "container">
+	<h4>Sales</h4>
+	<table class = "table">
+		<tr>
+			<th>Product</th>
+			<th>Date Bought</th>
+			<th>Buyer</th>
+			<th>Amount</th>
+		</tr>
+		<% @my_products.each do |p| %>
+			<%if ((@transactions.any?) && (@transactions.find_by product_id:p.id))%>
+				<tr>
+					<td><%=p.name%></td>
+					<td><%=(@transactions.find_by product_id:p.id).created_at.strftime("%b %e,%Y")%></td>
+					<td><%=@users.find((@transactions.find_by product_id:p.id).buyer_id).first_name%></td>
+					<td>$<%=p.amount.round(2)%></td>
+				</tr>
+			<%end%>
+		<%end%>
+	</table>
+	
+</div>
+<div class = "container">
+	<h4>Purchases</h4>
+	<table class = "table">
+		<tr>
+			<th>Product</th>
+			<th>Date Bought</th>
+			<th>Seller</th>
+			<th>Amount</th>
+		</tr>
+		<% if @my_bought_transactions %>
+			<% @my_bought_transactions.each do |t| %>
+
+					<tr>
+						<td><%=@products.find(t.product_id).name%></td>
+						<td><%=t.created_at.strftime("%b %e,%Y")%></td>
+						<td><%=@users.find(t.seller_id).first_name%></td>
+						<td>$<%=@products.find(t.product_id).amount.round(2)%></td>
+					</tr>
+			<%end%>
+		<%end%>
+	</table>
+	
+</div>

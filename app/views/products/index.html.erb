@@ -1,0 +1,36 @@
+<div class = 'headbar'>
+	<h2>Hi, <%=current_user.first_name%>   <a href="/users/<%=current_user.id%>" class = "btn btn-primary">Go to Dashboard</a></h2>
+</div>
+<div class = 'container'>
+	<h3>All Products</h3>
+	<table class = "table">
+		<tr>
+			<th>Product</th>
+			<th>Seller</th>
+			<th>Date Posted</th>
+			<th>Amount</th>
+			<th>Action</th>
+		</tr>
+		<%@products.each do |p|%>
+			<%if !((@transactions.any?) && (@transactions.find_by product_id:p.id))%>
+				<tr>
+					<td><%=p.name%></td>
+					<td><%=@users.find(p.user_id).first_name%></td>
+					<td><%=p.created_at.strftime("%b %e,%Y")%></td>
+					<td><%=p.amount.round(2)%></td>
+					<td>
+						<form action="/transactions" method = "post">
+							<input type="hidden" name = "authenticity_token" value = "<%=form_authenticity_token%>">
+							<input type="hidden" name = "product_id" value = "<%=p.id%>">
+							<input type="hidden" name = "buyer_id" value = "<%=current_user.id%>">
+							<input type="hidden" name = "seller_id" value = "<%=p.user_id%>">
+							<input type="submit" value = "buy" class = "btn btn-info">
+						</form>
+					</td>
+				</tr>
+			<%end%>
+		<%end%>
+	</table>
+</div>
+
+
