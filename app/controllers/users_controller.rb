@@ -1,5 +1,5 @@
 class UsersController < ApplicationController
-after_action :buy_sum,:sell_sum
+# after_action :buy_sum,:sell_sum
   def create
   	@user = User.new(user_params)
     if !@user.save
